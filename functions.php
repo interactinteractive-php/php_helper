@@ -14,6 +14,11 @@ function isValidEmail($email) {
     return (boolean) preg_match("/^[_\-\.0-9a-zA-Z]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email);
 }
 
+function isValidDate($date, $format = 'Y-m-d H:i:s') {
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
+
 function objectToArray($d) {
 
     if (is_object($d)) {
@@ -2786,7 +2791,17 @@ if (function_exists('mb_strtolower')) {
         return strtolower($string);
     }
 }
-
+if (!function_exists('create_function')) {
+    $FAUTO_NUM = 1; 
+    function create_function($pars, $code) { 
+        global $FAUTO_NUM;
+        $FAUTO_NUM++;  
+        $fid = $FAUTO_NUM; 
+        $str = "function fauto$fid($pars) { $code };"; 
+        eval($str);
+        return "fauto".$fid; 
+    }
+}
 function getCombinations($array) {
     $length = sizeof($array);
     $combocount = pow(2, $length);
