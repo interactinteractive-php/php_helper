@@ -1445,29 +1445,24 @@ function isNullOrZero($param) {
 
 function convJson($param) {
     header('Content-Type: application/json');
-    echo json_encode($param);
+    echo json_encode($param, JSON_UNESCAPED_UNICODE);
 }
 
 function issetVar(&$param) {
     return isset($param) ? Security::sanitize($param) : '';
 }
-
 function issetParam(&$param) {
     return isset($param) ? $param : '';
 }
-
 function issetParamZero(&$param) {
     return isset($param) ? $param : '0';
 }
-
 function issetParamArray(&$param) {
     return isset($param) ? $param : array();
 }
-
 function issetCount(&$param) {
     return (isset($param) && is_countable($param)) ? count($param) : 0;
 }
-
 function issetDefaultVal(&$param, $defaultValue) {
     return isset($param) ? $param : $defaultValue;
 }
@@ -1479,6 +1474,9 @@ function checkFileDefaultVal(&$param, $defaultValue) {
 }
 function issetJsonToArr(&$param) {
     return (isset($param) && $param) ? json_decode($param, true) : array();
+}
+function returnNull($param) {
+    return (isset($param) && $param != '') ? $param : null;
 }
 
 function generatePasswordForCampus($length = 8) {
@@ -2077,7 +2075,7 @@ if (!function_exists('array_column')) {
 
 function helperGetLookupFieldValBp($row, $path, $field) {
     if (isset($row[$path]) && is_array($row[$path]) && isset($row[$path]['rowdata'][$field])) {
-        return $row[$path]['rowdata'][$field];
+        return returnNull($row[$path]['rowdata'][$field]);
     } else {
         return null;
     }
@@ -2106,7 +2104,7 @@ function helperCheckEmptyRowGroup($row, $groupPath) {
             } 
         }
         
-        return $row[$groupPath];
+        return returnNull($row[$groupPath]);
     } 
     
     return null;
@@ -2703,7 +2701,7 @@ function getBasePath() {
 
 function maskEmail($email, $mask = '*') {
     $em   = explode('@', $email);
-    $name = implode(array_slice($em, 0, count($em) - 1), '@');
+    $name = implode('@', array_slice($em, 0, count($em) - 1));
     $nlen = strlen($name);
     $len  = floor($nlen / 2);
     
