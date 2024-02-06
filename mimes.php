@@ -104,5 +104,6 @@ $mimes = array(
     'svg'       =>      array('image/svg'), 
     'wmv'       =>      array('video/x-ms-asf', 'video/x-ms-wmv'), 
     'ifc'       =>      array('application/x-step', 'text/plain'), 
-    'dwg'       =>      array('application/acad', 'image/vnd.dwg', 'image/x-dwg')
+    'dwg'       =>      array('application/acad', 'image/vnd.dwg', 'image/x-dwg'), 
+    'msg'       =>      array('application/vnd.ms-outlook')
 );
